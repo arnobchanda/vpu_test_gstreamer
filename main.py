@@ -1,9 +1,9 @@
 import sys
 import gi
-
-# Require GStreamer 1.0
-gi.require_version('Gst', '1.0')
 from gi.repository import Gst, GLib
+
+gi.require_version("Gst", "1.0")
+
 
 # --- Main Function ---
 def main():
@@ -17,10 +17,7 @@ def main():
     # decodebin: Automatically finds the correct parsers and decoders.
     # autovideosink: Automatically finds the best video output for your system.
     rtsp_url = "rtsp://admin:root%40ReVx@192.168.50.109/Streaming/Channels/101"
-    
-    # You can replace the rtsp_url with your own camera's URL
-    # For example: "rtsp://admin:password@192.168.1.100/stream1"
-    
+
     pipeline_str = f"rtspsrc location={rtsp_url} latency=200 ! decodebin ! autovideoconvert ! queue ! waylandsink qos=false sync=false"
 
     print(f"Creating pipeline: {pipeline_str}")
@@ -39,5 +36,7 @@ def main():
         pipeline.set_state(Gst.State.NULL)
         loop.quit()
 
+
 if __name__ == "__main__":
     sys.exit(main())
+
