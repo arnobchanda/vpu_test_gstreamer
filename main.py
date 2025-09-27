@@ -1,8 +1,8 @@
 import sys
 import gi
+gi.require_version("Gst", "1.0")
 from gi.repository import Gst, GLib
 
-gi.require_version("Gst", "1.0")
 
 
 # --- Main Function ---
@@ -18,7 +18,9 @@ def main():
     # autovideosink: Automatically finds the best video output for your system.
     rtsp_url = "rtsp://admin:root%40ReVx@192.168.50.109/Streaming/Channels/101"
 
-    pipeline_str = f"rtspsrc location={rtsp_url} latency=200 ! decodebin ! autovideoconvert ! queue ! waylandsink qos=false sync=false"
+    # The decodebin is using the /dev/imx_hantro device.
+    # We need to use imxvideoconvert_g2d device for VPU 2D convert
+    pipeline_str = f"rtspsrc location={rtsp_url} latency=200 ! decodebin ! videoconvert ! v4l2sink device=/dev/video10" #<- This is working.
 
     print(f"Creating pipeline: {pipeline_str}")
     pipeline = Gst.parse_launch(pipeline_str)
