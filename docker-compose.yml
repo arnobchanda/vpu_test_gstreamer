@@ -1,9 +1,9 @@
 services:
   camera-control-system:
-    image: arnobchanda/vpu-test-image:latest
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
+    #image: arnobchanda/vpu-test-image:latest
+    build:
+       context: .
+       dockerfile: Dockerfile
     container_name: camera-control-core
     privileged: true
     network_mode: host
@@ -22,7 +22,7 @@ services:
       - "/dev/video10:/dev/video10"
     stdin_open: true
     tty: true
-    # command: ["/bin/bash", "/app/run.sh"]
+    command: ["/bin/bash", "/app/run.sh"]
     # depends_on:
     #   - weston
 
